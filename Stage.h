@@ -4,7 +4,8 @@ class Stage :
     public GameObject
 {
     int hImage;
-    int anim;
+    int imageSize;
+    int imageElement;
 public:
     Stage();
     ~Stage();
