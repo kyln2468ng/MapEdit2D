@@ -1,11 +1,16 @@
 #include "Stage.h"
 #include "DxLib.h"
+#include "MapChip.h"
 
 // shift + alt カーソル, ctrl + カーソル
 namespace
 {
+	const int IMAGE_SIZE = { 32 }; // 画像のサイズ
 	const int MAP_WIDTH = { 32 };
 	const int MAP_HEIGHT = { 22 };
+	const int MAP_CHIP_WIDTH = { 16 };
+	const int MAP_CHIP_HEIGHT = { 12 };
+
 	const int myMap[MAP_HEIGHT][MAP_WIDTH]
 		{
 			{6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6},
@@ -35,22 +40,39 @@ namespace
 }
 
 Stage::Stage()
-	:GameObject(),hImage(-1),imageSize(32),imageElement(16)
+	:GameObject()
 {
 	/*GameObject();
 	hImage = -1;
 	imageSize = 32;
 	imageElement = 16;*/
-	hImage = LoadGraph("./bg.png");
+	//hImage = new int[MAP_WIDTH * MAP_HEIGHT]; // 必要な時に必要な数だけ配列を準備する方法
+	hImage = std::vector<int>(MAP_CHIP_WIDTH * MAP_CHIP_HEIGHT, -1);
+
+	//hImage = LoadGraph("./bg.png");
+	LoadDivGraph("./bg.png", MAP_CHIP_WIDTH * MAP_CHIP_HEIGHT, MAP_CHIP_WIDTH, MAP_CHIP_HEIGHT, IMAGE_SIZE, IMAGE_SIZE, hImage.data());
+
+	mapChip_ = new MapChip();
+
 }
 
 Stage::~Stage()
 {
-	if (hImage != -1)
+	for (int i = 0;i < MAP_CHIP_WIDTH * MAP_CHIP_HEIGHT;i++)
+	{
+		if (hImage[i] != -1)
+		{
+			DeleteGraph(i);
+			hImage[i] = -1;
+		}
+	}
+	//delete[] hImage; // 配列の開放　自分で取ったものは自分で消す
+
+	/*if (hImage != -1)
 	{
 		DeleteGraph(hImage);
 		hImage = -1;
-	}
+	}*/
 }
 
 void Stage::Update()
@@ -59,17 +81,18 @@ void Stage::Update()
 
 void Stage::Draw()
 {
-	if (hImage != -1)
+
+	for (int j = 0; j < MAP_HEIGHT; j++)
 	{
-		for (int j = 0; j < MAP_HEIGHT; j++)
+		for (int i = 0; i < MAP_WIDTH; i++)
 		{
-			for (int i = 0; i < MAP_WIDTH; i++)
+			if (hImage[myMap[j][i]] != -1)
 			{
-				int kx = myMap[j][i] % imageElement;
-				int ky = myMap[i][j] / imageElement;
+				/*int kx = myMap[j][i] % imageElement;
+					int ky = myMap[j][i] / imageElement;*/
 				/*int ky = myMap[i][j] / 16;
-				int kx = myMap[j][i] - ky;*/
-				DrawRectGraph(i * imageSize, j * imageSize, imageSize * kx, imageSize * ky, imageSize, imageSize, hImage, TRUE);
+					int kx = myMap[j][i] - ky;*/
+				DrawGraph(i * IMAGE_SIZE, j * IMAGE_SIZE, hImage[myMap[j][i]], TRUE);
 			}
 		}
 	}

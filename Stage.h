@@ -1,11 +1,15 @@
 #pragma once
 #include "Library//GameObject.h"
+#include <vector>
+#include "MapChip.h"
+
 class Stage :
     public GameObject
 {
-    int hImage;
-    int imageSize;
-    int imageElement;
+    //int *hImage; // 背景画像のハンドルの配列毛のポインタ（配列自体）
+    std::vector<int> hImage; // 背景画像のハンドル
+    MapChip* mapChip_;
+
 public:
     Stage();
     ~Stage();
