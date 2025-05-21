@@ -2,6 +2,8 @@
 #include "DxLib.h"
 #include "MapChip.h"
 #include "MapEdit.h"
+#include "Input.h"
+#include "./Source/Screen.h"
 
 // shift + alt カーソル, ctrl + カーソル
 //namespace
@@ -39,6 +41,13 @@
 //
 //		};
 //}
+
+namespace
+{
+	const int MAP_CHIP_NUM_X = { 8 };
+	const int MAP_CHIP_MARGIN_WIDTH = { MAP_CHIP_NUM_X * 32 };
+	const int MAP_CHIP_WIDTH = Screen::WIDTH - MAP_CHIP_MARGIN_WIDTH;
+}
 
 Stage::Stage()
 	:GameObject()
@@ -81,11 +90,59 @@ Stage::~Stage()
 
 void Stage::Update()
 {
+	if (Input::IsButtonDown(MOUSE_INPUT_LEFT))
+	{
+		// マウスが押された時の処理
+		DxLib::printfDx("左押された！！\n");
+	}
+	if (Input::IsButtonDown(MOUSE_INPUT_RIGHT))
+	{
+		// マウスが押された時の処理
+		DxLib::printfDx("右押された！！\n");
+	}
+	if (Input::IsButtonKeep(MOUSE_INPUT_LEFT))
+	{
+		// マウスが押された時の処理
+		DxLib::printfDx("左押され続けてる！！\n");
+	}
+	if (Input::IsButtonKeep(MOUSE_INPUT_RIGHT))
+	{
+		// マウスが押された時の処理
+		DxLib::printfDx("右押された！！\n");
+	}
+	if (Input::IsButtonUP(MOUSE_INPUT_LEFT))
+	{
+		// マウスが押された時の処理
+		DxLib::printfDx("左離された！！\n");
+	}
+	if (Input::IsButtonUP(MOUSE_INPUT_RIGHT))
+	{
+		// マウスが押された時の処理
+		DxLib::printfDx("右離された！！\n");
+	}
+	int mx = -1, my = -1;
+	if (GetMousePoint(&mx, &my) == 0)
+	{
+		DxLib::printfDx("マウスの座標(%d,%d)\n", mx, my);
+	}
+	else
+	{
+		DxLib::printfDx("マウスの座標取得失敗\n");
+	}
+	if ((mx > MAP_CHIP_WIDTH) && (mx < Screen::WIDTH) && (my > 0) && (my < Screen::HEIGHT))
+	{
+		SetDrawBlendMode(DX_BLENDMODE_ALPHA, 128);
+		DrawBox(MAP_CHIP_WIDTH, 0, Screen::WIDTH, Screen::HEIGHT, GetColor(0, 255, 255), FALSE, 5);
+		if ()
+		{
+
+		}
+		SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
+	}
 }
 
 void Stage::Draw()
 {
-
 	//for (int j = 0; j < MAP_HEIGHT; j++)
 	//{
 	//	for (int i = 0; i < MAP_WIDTH; i++)

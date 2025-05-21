@@ -11,6 +11,10 @@ namespace
 	const int MAP_CHIP_NUM_Y = { 24};
 	const int MAP_CHIP_WIN_WIDTH = { IMAGE_SIZE * MAP_CHIP_NUM_X };
 	const int MAP_CHIP_WIN_HEIGHT = { IMAGE_SIZE * MAP_CHIP_NUM_Y };
+	int TOPLEFT_X = Screen::WIDTH - MAP_CHIP_WIN_WIDTH;
+	int TOPLEFT_Y = 0;
+	int RIGHTBOTTOM_X = Screen::WIDTH;
+	int RIGHTBOTTOM_Y = MAP_CHIP_WIN_HEIGHT;
 }
 
 MapChip::MapChip()
@@ -38,10 +42,6 @@ void MapChip::Update()
 
 void MapChip::Draw()
 {
-	int TOPLEFT_X = Screen::WIDTH - MAP_CHIP_WIN_WIDTH;
-	int TOPLEFT_Y = 0;
-	int RIGHTBOTTOM_X = Screen::WIDTH;
-	int RIGHTBOTTOM_Y = MAP_CHIP_WIN_HEIGHT;
 	for (int i = 0;i < MAP_CHIP_NUM_X;i++)
 	{
 		for (int j = 0; j < MAP_CHIP_NUM_Y;j++)
