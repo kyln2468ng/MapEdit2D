@@ -11,6 +11,9 @@ class Stage :
     std::vector<int> hImage; // ”wŒi‰æ‘œ‚Ìƒnƒ“ƒhƒ‹
     MapChip* mapChip_;
     MapEdit* mapEdit_;
+    bool isMouseDoen_;
+    bool isOldMouseDown_;
+    bool isDragging_;
 
 public:
     Stage();

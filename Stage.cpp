@@ -120,23 +120,24 @@ void Stage::Update()
 		// マウスが押された時の処理
 		DxLib::printfDx("右離された！！\n");
 	}
+
 	int mx = -1, my = -1;
-	if (GetMousePoint(&mx, &my) == 0)
+	/*if (GetMousePoint(&mx, &my) == 0)
 	{
 		DxLib::printfDx("マウスの座標(%d,%d)\n", mx, my);
 	}
 	else
 	{
 		DxLib::printfDx("マウスの座標取得失敗\n");
-	}
+	}*/
 	if ((mx > MAP_CHIP_WIDTH) && (mx < Screen::WIDTH) && (my > 0) && (my < Screen::HEIGHT))
 	{
 		SetDrawBlendMode(DX_BLENDMODE_ALPHA, 128);
-		DrawBox(MAP_CHIP_WIDTH, 0, Screen::WIDTH, Screen::HEIGHT, GetColor(0, 255, 255), FALSE, 5);
-		if ()
+		//DrawBox(MAP_CHIP_WIDTH, 0, Screen::WIDTH, Screen::HEIGHT, GetColor(0, 255, 255), FALSE, 5);
+		/*if (mx)
 		{
 
-		}
+		}*/
 		SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
 	}
 }
