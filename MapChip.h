@@ -1,32 +1,26 @@
 #pragma once
 #include "Library/GameObject.h"
 #include <vector>
-
-struct Point
-{
-    int x;
-    int y;
-};
-
-struct Rect
-{
-    int x, y;
-    int w, h;
-};
+#include "globals.h"
 
 class MapChip :
     public GameObject
 {
-    std::vector<int> hImage_;
-    std::vector<Rect> bgRects_;
-    bool isUpdate;
-    bool isInMapChipArea_;
-    Point selected_;
-    int selectedIndex_;
 public:
     MapChip();
     ~MapChip();
     void Update() override;
     void Draw() override;
+    int GetHandle(int index) { return hImage_[index]; } //ƒnƒ“ƒhƒ‹‚ðŽæ“¾‚·‚é
+    bool isHold();
+    int GetHoldImage();
+private:
+    std::vector<int> hImage_;
+    std::vector<Rect> bgRects_;
+    bool isUpdate_;
+    bool isInMapChipArea_;
+    Point selected_;
+    int selectedIndex_;
+    bool isHold_;
 };
 
