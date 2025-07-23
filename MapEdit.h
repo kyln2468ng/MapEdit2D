@@ -26,6 +26,7 @@ public:
     void Draw() override;
     void SaveMapData();
     void LoadMapDate();
+    void ResizeMap(int newWidth, int newHeight);
 private:
     MapEditConfig efg_; // マップチップの設定を保持する
     std::vector<int> myMap_;
@@ -34,5 +35,6 @@ private:
     bool isMapEditArea_ = false;
     Point selected_;
     int hHandl;
+    Point ScrollOffset_; // スクロールオフセット
 };
 

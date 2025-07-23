@@ -67,13 +67,13 @@ void MapEdit::Update()
 		if (mapChip && mapChip->isHold())
 		{
 			SetMap({ selected_.x,selected_.y }, mapChip->GetHoldImage());
-		}
-
-		/*if (Input::IsKeyDown(KEY_INPUT_SPACE))
-		{
-			SetMap({ selected_.x,selected_.y }, -1);
-		}*/
+		}		
 	}
+	if (Input::IsKeyDown(KEY_INPUT_SPACE)||Input::IsKeepKeyDown(KEY_INPUT_SPACE))
+	{
+		SetMap({ selected_.x,selected_.y }, -1);
+	}
+
 	if (Input::IsKeyDown(KEY_INPUT_S))
 	{
 		SaveMapData();
@@ -83,10 +83,36 @@ void MapEdit::Update()
 		LoadMapDate();
 	}
 
+	static Point mapMg = { efg_.MAP_WIDTH,efg_.MAP_HEIGHT };
 	if (Input::IsKeyDown(KEY_INPUT_RIGHT))
 	{
-		
+		ResizeMap(efg_.MAP_WIDTH + 1, efg_.MAP_HEIGHT);
+		mapEditRect_.w += efg_.MAP_IMAGE_SIZE;
+		if (mapMg.x < efg_.MAP_WIDTH)
+		{
+			efg_.LEFT_MARGIN -= efg_.MAP_IMAGE_SIZE;
+		}
 	}
+
+	if (Input::IsKeyDown(KEY_INPUT_LEFT))
+	{
+		ResizeMap(efg_.MAP_WIDTH - 1, efg_.MAP_HEIGHT);
+		//mapEditRect_.w -= efg_.MAP_IMAGE_SIZE;
+		if (mapMg.x > efg_.MAP_WIDTH)
+		{
+			efg_.LEFT_MARGIN += efg_.MAP_IMAGE_SIZE;
+		}
+	}
+
+	/*if (Input::IsKeyDown(KEY_INPUT_A))
+	{
+		ScrollOffset_.x = std::max(0, ScrollOffset_.x, -1);
+	}
+	if (Input::IsKeyDown(KEY_INPUT_D))
+	{
+		ScrollOffset_.x = std::min(std::max(0, efg_.MAP_WIDTH - 18),ScrollOffset_.x +1);
+	}*/
+
 }
 
 void MapEdit::Draw()
@@ -319,4 +345,25 @@ void MapEdit::LoadMapDate()
 	}
 	else
 		printfDx("cansele");
+}
+
+void MapEdit::ResizeMap(int newWidth, int newHeight)
+{
+	std::vector<int> newMap(newWidth * newHeight, -1); // 初期値は空
+
+	int copyWidth = std::min(efg_.MAP_WIDTH, newWidth);
+	int copyHeight = std::min(efg_.MAP_HEIGHT, newHeight);
+
+	for (int y = 0; y < copyHeight; ++y)
+	{
+		for (int x = 0; x < copyWidth; ++x)
+		{
+			newMap[y * newWidth + x] = myMap_[y * efg_.MAP_WIDTH + x];
+		}
+	}
+
+
+	myMap_ = std::move(newMap);         // 新しいマップに置き換え
+	efg_.MAP_WIDTH = newWidth;          // 幅と高さを更新
+	efg_.MAP_HEIGHT = newHeight;
 }
